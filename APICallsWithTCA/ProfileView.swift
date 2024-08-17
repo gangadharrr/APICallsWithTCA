@@ -2,18 +2,18 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ProfileFeature: Reducer {
-    struct State: Equatable, Sendable {
+    struct State: Equatable {
         var id: Int = 1
         var errorMessage: String?
-        var response: Result<UserData, ApiError>?
+        var response: Result<UserData, UserError>?
     }
     
-    enum Action: Equatable, Sendable {
+    enum Action: Equatable {
         case nextUserButtonTapped
         case previousUserButtonTapped
         case refreshButtonTapped
         case fetchData
-        case fetchResponse(Result<UserData, ApiError>)
+        case fetchResponse(Result<UserData, UserError>)
     }
 
     var body: some ReducerOf<Self> {
@@ -42,15 +42,11 @@ struct ProfileFeature: Reducer {
             case .fetchData:
                 state.response = nil
                 state.errorMessage = nil
-                return .run { [state = state] send in
-                    do {
-                        let response = try await ApiConfig.getUser(id: state.id)
-                        await send(.fetchResponse(response))
-                    } catch {
-                        await send(.fetchResponse(.failure(.serverError)))
-                    }
+                return .run { send in
+                    let response = try await APIConfig.getUser(id: state.id)
+                    await send(.fetchResponse(response))
                 }
-                
+
             case .fetchResponse(.success(let userData)):
                 state.response = .success(userData)
                 return .none
