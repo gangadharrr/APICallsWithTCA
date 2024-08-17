@@ -42,7 +42,7 @@ struct ProfileFeature: Reducer {
             case .fetchData:
                 state.response = nil
                 state.errorMessage = nil
-                return .run { send in
+                return .run { [state = state] send in
                     let response = try await APIConfig.getUser(id: state.id)
                     await send(.fetchResponse(response))
                 }
@@ -55,7 +55,6 @@ struct ProfileFeature: Reducer {
                 state.response = .failure(error)
                 state.errorMessage = error.rawValue
                 return .none
-                
             }
         }
     }
@@ -79,11 +78,11 @@ struct ProfileView: View {
                 }
             }
             .padding(.all)
-            .toolbar {
-                self.profileControls(viewStore)
-            }
             .task {
                 viewStore.send(.fetchData)
+            }
+            .toolbar {
+                self.profileControls(viewStore)
             }
         }
     }
