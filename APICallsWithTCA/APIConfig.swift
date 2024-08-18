@@ -33,6 +33,7 @@ enum APIConfig {
                 return .failure(.internalError)
             }
             
+            // (Optional) Clearing cache and cookies from previous URLSession
             await URLSession.shared.reset()
             return .success(usersData.data)
         } catch {
