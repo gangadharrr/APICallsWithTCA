@@ -1,6 +1,18 @@
 import Foundation
 
+/// Configuration for API endpoints and network operations.
+///
+/// This enum contains static methods for making API requests to retrieve user data.
 enum APIConfig {
+    
+    /// Fetches user data for a specific user ID from the API.
+    ///
+    /// This method constructs the appropriate URL for the user endpoint,
+    /// makes an asynchronous network request, and handles various response scenarios.
+    ///
+    /// - Parameter id: The unique identifier of the user to fetch.
+    /// - Returns: A Result containing either the successfully retrieved `UserData` or a `UserError`.
+    /// - Throws: May throw system-level errors related to network operations.
     static func getUser(id: Int) async throws -> Result<UserData, UserError> {
         let baseUrl = "https://reqres.in/api/"
         let users = "users/"
