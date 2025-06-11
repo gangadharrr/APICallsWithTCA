@@ -1,21 +1,55 @@
+///
+/// ProfileView.swift
+/// APICallsWithTCA
+///
+/// Created by Gangadhar C on 8/15/24.
+/// Copyright © 2024. All rights reserved.
+///
+/// Profile view implementation using The Composable Architecture.
+///
+
 import SwiftUI
 import ComposableArchitecture
 
+/// A reducer that manages profile state and actions.
+///
+/// This reducer handles fetching user data, navigating between users,
+/// and managing the profile view state.
 struct ProfileFeature: Reducer {
+    /// The state for the profile feature.
+    ///
+    /// Contains the current user ID, error message if any,
+    /// and the API response.
     struct State: Equatable {
+        /// The ID of the current user being displayed.
         var id: Int = 1
+        
+        /// Error message to display if an error occurs.
         var errorMessage: String?
+        
+        /// The result of the API call, containing either user data or an error.
         var response: Result<UserData, UserError>?
     }
     
+    /// Actions that can be performed on the profile feature.
     enum Action: Equatable {
+        /// Triggered when the next user button is tapped.
         case nextUserButtonTapped
+        
+        /// Triggered when the previous user button is tapped.
         case previousUserButtonTapped
+        
+        /// Triggered when the refresh button is tapped.
         case refreshButtonTapped
+        
+        /// Initiates data fetching from the API.
         case fetchData
+        
+        /// Handles the response from the API call.
         case fetchResponse(Result<UserData, UserError>)
     }
 
+    /// The reducer logic for the profile feature.
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -60,8 +94,15 @@ struct ProfileFeature: Reducer {
     }
 }
 
+/// A view that displays user profile information.
+///
+/// This view shows user details fetched from the API and provides
+/// navigation controls to browse different user profiles.
 struct ProfileView: View {
+    /// The store that manages the profile feature state and actions.
     let store: StoreOf<ProfileFeature>
+    
+    /// The body of the view.
     var body: some View {
         WithViewStore(self.store, observe: {$0}) { viewStore in
             VStack {
@@ -87,6 +128,10 @@ struct ProfileView: View {
         }
     }
     
+    /// Creates the profile information component.
+    ///
+    /// - Parameter user: The user data to display.
+    /// - Returns: A view displaying the user's profile information.
     func profileComponent(_ user: UserData) -> some View {
         VStack {
             Spacer()
@@ -114,6 +159,10 @@ struct ProfileView: View {
         }
     }
 
+    /// Creates the toolbar controls for navigating between profiles.
+    ///
+    /// - Parameter viewStore: The view store for accessing state and sending actions.
+    /// - Returns: Toolbar content with navigation controls.
     @ToolbarContentBuilder
     func profileControls(
         _ viewStore: ViewStoreOf<ProfileFeature>
@@ -149,6 +198,7 @@ struct ProfileView: View {
     }
 }
 
+/// Preview provider for ProfileView.
 #Preview {
     ProfileView(store: Store(initialState: .init(), reducer: {
         ProfileFeature()

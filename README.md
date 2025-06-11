@@ -64,6 +64,20 @@ The project includes comprehensive test coverage:
 - `APICallsWithTCATests` for unit tests
 - `APICallsWithTCAUITests` for UI tests
 
+## Documentation Standards
+
+This project follows a consistent documentation standard. The following resources are available:
+
+- [Documentation Standard](./DOCUMENTATION_STANDARD.md) - Detailed guidelines for documenting code
+- [Documentation Templates](./DOCUMENTATION_TEMPLATES.md) - Templates for common documentation patterns
+
+All code should be documented according to these standards, using Swift's documentation comment format (///). The documentation standard ensures:
+
+- Consistency across the codebase
+- Clear explanations of code functionality
+- Proper API documentation
+- Maintainable and understandable code
+
 ## Best Practices Demonstrated
 
 - Clean Architecture principles
@@ -71,6 +85,7 @@ The project includes comprehensive test coverage:
 - Proper separation of concerns
 - Comprehensive testing approach
 - Modern iOS development practices
+- Consistent documentation practices
 
 ## Contributing
 
