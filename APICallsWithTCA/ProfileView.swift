@@ -1,18 +1,73 @@
 import SwiftUI
 import ComposableArchitecture
 
+/// ProfileFeature is the core reducer that manages the user profile functionality
+/// within The Composable Architecture (TCA) pattern.
+///
+/// This reducer handles all state transitions and side effects related to user profile management:
+/// - Fetching user data from the API
+/// - Navigating between different user profiles
+/// - Handling success and error states
+/// - Managing the UI state based on API responses
+///
+/// # Usage
+/// ```swift
+/// let store = Store(initialState: ProfileFeature.State(), reducer: {
+///     ProfileFeature()
+/// })
+/// 
+/// let profileView = ProfileView(store: store)
+/// ```
+///
+/// # TCA Architecture
+/// As part of TCA, this reducer:
+/// - Defines the domain-specific State and Action types
+/// - Processes Actions to update State and perform side effects
+/// - Uses the .run effect to perform asynchronous API calls
+/// - Maintains a unidirectional data flow
 struct ProfileFeature: Reducer {
+    /// Represents the complete state of the profile feature.
+    ///
+    /// This state object contains:
+    /// - The current user ID being displayed
+    /// - Any error messages that need to be shown
+    /// - The API response which may contain user data or an error
+    ///
+    /// The state is marked as `Equatable` to enable TCA's state diffing
+    /// which optimizes UI updates.
     struct State: Equatable {
+        /// The ID of the user profile currently being viewed
         var id: Int = 1
+        
+        /// Error message to display when API calls fail
         var errorMessage: String?
+        
+        /// The result of the API call, containing either user data or an error
         var response: Result<UserData, UserError>?
     }
     
+    /// Defines all possible actions that can be performed within the profile feature.
+    ///
+    /// These actions represent:
+    /// - User interactions (button taps)
+    /// - Internal events (data fetching)
+    /// - External events (API responses)
+    ///
+    /// Each action triggers a state update through the reducer.
     enum Action: Equatable {
+        /// User tapped the Next button to view the next profile
         case nextUserButtonTapped
+        
+        /// User tapped the Previous button to view the previous profile
         case previousUserButtonTapped
+        
+        /// User tapped the Refresh button to reset and reload profiles
         case refreshButtonTapped
+        
+        /// Internal action to initiate data fetching from the API
         case fetchData
+        
+        /// Action containing the API response with user data or an error
         case fetchResponse(Result<UserData, UserError>)
     }
 
@@ -60,7 +115,34 @@ struct ProfileFeature: Reducer {
     }
 }
 
+/// A SwiftUI view that displays user profile information and provides navigation controls.
+///
+/// ProfileView is responsible for:
+/// - Displaying user profile data in a structured format
+/// - Showing appropriate loading and error states
+/// - Providing UI controls for navigating between profiles
+/// - Initiating profile data fetching on appearance
+///
+/// # TCA Integration
+/// This view connects to the ProfileFeature reducer through the TCA Store:
+/// - It observes state changes using WithViewStore
+/// - It dispatches actions to the store based on user interactions
+/// - It renders different UI based on the current state
+///
+/// # View Components
+/// - Profile information display (avatar, name, email)
+/// - Navigation controls (next, previous, refresh)
+/// - Loading indicator
+/// - Error message display
+///
+/// # Usage
+/// ```swift
+/// ProfileView(store: Store(initialState: .init(), reducer: {
+///     ProfileFeature()
+/// }))
+/// ```
 struct ProfileView: View {
+    /// The TCA store that connects this view to the ProfileFeature reducer
     let store: StoreOf<ProfileFeature>
     var body: some View {
         WithViewStore(self.store, observe: {$0}) { viewStore in
@@ -87,6 +169,16 @@ struct ProfileView: View {
         }
     }
     
+    /// Creates the profile information component that displays user details.
+    ///
+    /// This method encapsulates the UI for showing:
+    /// - User's avatar image (loaded asynchronously)
+    /// - User ID
+    /// - Full name
+    /// - Email address (as a tappable link)
+    ///
+    /// - Parameter user: The user data to display
+    /// - Returns: A SwiftUI View containing the formatted profile information
     func profileComponent(_ user: UserData) -> some View {
         VStack {
             Spacer()
@@ -114,6 +206,17 @@ struct ProfileView: View {
         }
     }
 
+    /// Creates the toolbar navigation controls for the profile view.
+    ///
+    /// This method builds a toolbar with:
+    /// - Previous button (left side)
+    /// - Refresh button (center)
+    /// - Next button (right side)
+    ///
+    /// The buttons are automatically disabled when there's an error state.
+    ///
+    /// - Parameter viewStore: The view store that provides state and action dispatch
+    /// - Returns: ToolbarContent with navigation controls
     @ToolbarContentBuilder
     func profileControls(
         _ viewStore: ViewStoreOf<ProfileFeature>
