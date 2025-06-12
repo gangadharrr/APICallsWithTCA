@@ -13,6 +13,7 @@ This project serves as a practical example of implementing API calls in an iOS a
 - Data modeling for API responses
 - Modern SwiftUI interface
 - Comprehensive test coverage
+- Complete Swift documentation comments (///)
 
 ## Project Structure
 
@@ -57,6 +58,29 @@ APICallsWithTCA/
 - Xcode 13.0+
 - Swift 5.5+
 
+## Documentation
+
+The project uses Swift's native documentation comments (///) throughout the codebase:
+
+- All public APIs are fully documented with parameter, return value, and exception information
+- Model structures and their properties include descriptive documentation
+- State and Action types in ProfileFeature include detailed explanations
+- Test cases include documentation explaining test scenarios and expected outcomes
+
+### Documentation Generation
+
+You can generate comprehensive documentation using [Jazzy](https://github.com/realm/jazzy), a documentation generation tool for Swift and Objective-C:
+
+```bash
+# Install Jazzy if not already installed
+gem install jazzy
+
+# Generate documentation
+jazzy --min-acl internal
+```
+
+This will create a `docs` folder with HTML documentation that can be viewed in any web browser.
+
 ## Testing
 
 The project includes comprehensive test coverage:
@@ -71,6 +95,7 @@ The project includes comprehensive test coverage:
 - Proper separation of concerns
 - Comprehensive testing approach
 - Modern iOS development practices
+- Complete documentation with Swift documentation comments
 
 ## Contributing
 

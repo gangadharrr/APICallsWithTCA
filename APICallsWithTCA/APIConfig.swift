@@ -1,6 +1,19 @@
 import Foundation
 
+/// A configuration enum that provides API-related functionality for the application.
+/// This enum contains static methods for making network requests to external APIs.
 enum APIConfig {
+    
+    /// Fetches user data from the Reqres.in API based on the provided user ID.
+    ///
+    /// This method performs an asynchronous network request to retrieve user information.
+    /// It handles various error scenarios including network errors, invalid user IDs, and server errors.
+    ///
+    /// - Parameter id: The unique identifier of the user to fetch
+    /// - Returns: A Result type containing either the user data or an error
+    /// - Throws: May throw network-related errors during the data fetching process
+    ///
+    /// - Note: This method automatically clears cache and cookies from the URLSession after completion
     static func getUser(id: Int) async throws -> Result<UserData, UserError> {
         let baseUrl = "https://reqres.in/api/"
         let users = "users/"
@@ -41,4 +54,3 @@ enum APIConfig {
         }
     }
 }
-
