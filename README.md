@@ -64,6 +64,33 @@ The project includes comprehensive test coverage:
 - `APICallsWithTCATests` for unit tests
 - `APICallsWithTCAUITests` for UI tests
 
+## Documentation Standards
+
+This project follows strict documentation standards to ensure consistency and maintainability:
+
+### Documentation Guidelines
+
+- All public types, properties, and methods must be documented
+- Documentation comments use the triple-slash format (`///`)
+- Each file has a standardized header comment
+- Complex logic includes inline comments
+- Test methods have clear documentation explaining their purpose
+
+### Documentation Resources
+
+The following documentation resources are available in the `Documentation` directory:
+
+- `CodingStandards.md`: Detailed documentation standards
+- `DocumentationTemplates.md`: Templates for different types of documentation
+- `DocumentationReviewProcess.md`: Process for reviewing documentation
+- `TerminologyGlossary.md`: Glossary of standard terms used throughout the codebase
+
+### Documentation Enforcement
+
+- SwiftLint is configured to enforce documentation standards
+- Documentation quality is part of the code review process
+- Regular documentation audits ensure consistency
+
 ## Best Practices Demonstrated
 
 - Clean Architecture principles
@@ -71,10 +98,11 @@ The project includes comprehensive test coverage:
 - Proper separation of concerns
 - Comprehensive testing approach
 - Modern iOS development practices
+- Consistent documentation standards
 
 ## Contributing
 
-Feel free to submit issues and enhancement requests.
+Feel free to submit issues and enhancement requests. All contributions should follow the established documentation standards.
 
 ## License
 
