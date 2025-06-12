@@ -1,6 +1,18 @@
 import Foundation
 
+/// Configuration for API calls and network operations
 enum APIConfig {
+    /// Fetches user data from the remote API based on the provided user ID
+    ///
+    /// This function performs an asynchronous network request to retrieve user information
+    /// from the reqres.in API service. It handles various error scenarios including
+    /// invalid URLs, server errors, and data parsing issues.
+    ///
+    /// - Parameter id: The unique identifier of the user to fetch
+    /// - Returns: A Result containing either the successfully fetched UserData or a UserError
+    /// - Throws: May throw network-related errors during the data fetch operation
+    ///
+    /// - Note: The function clears the URLSession cache after completing the request
     static func getUser(id: Int) async throws -> Result<UserData, UserError> {
         let baseUrl = "https://reqres.in/api/"
         let users = "users/"
