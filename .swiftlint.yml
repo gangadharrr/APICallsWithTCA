@@ -1,0 +1,73 @@
+# SwiftLint Configuration for APICallsWithTCA
+# This configuration includes rules for documentation quality and consistency
+
+# Disabled rules (rules we don't want to enforce)
+disabled_rules:
+  - trailing_whitespace
+  - line_length
+
+# Enabled rules (rules we do want to enforce)
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - fatal_error_message
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - missing_docs
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - operator_usage_whitespace
+  - overridden_super_call
+  - private_outlet
+  - prohibited_super_call
+  - redundant_nil_coalescing
+  - sorted_imports
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+
+# Configuration for specific rules
+missing_docs:
+  warning: # Warn about missing documentation
+    - public
+    - open
+    - internal
+  error: # Error on missing documentation for public and open declarations
+    - public
+    - open
+
+# Excluded files and directories
+excluded:
+  - Carthage
+  - Pods
+  - fastlane
+  - vendor
+  - .build
+
+# Custom rules
+custom_rules:
+  todo_format:
+    name: "TODO Format"
+    regex: '(TODO|FIXME)(?!:)'
+    message: "TODO and FIXME comments should include a colon (e.g., TODO:)"
+    severity: warning
+
+  mark_format:
+    name: "MARK Format"
+    regex: '(MARK)(?!: -)'
+    message: "MARK comments should follow the format: MARK: - Section name"
+    severity: warning
+
+  doc_comment:
+    name: "Documentation Comment"
+    regex: '///[^/]'
+    message: "Documentation comments should have a space after the ///"
+    severity: warning
+
+  documentation_spacing:
+    name: "Documentation Spacing"
+    regex: '///$'
+    message: "Empty documentation lines should be written as ///"
+    severity: warning
